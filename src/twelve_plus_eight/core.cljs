@@ -5,6 +5,7 @@
 (defn setup []
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
+  (q/smooth 8)
   (q/text-font "Menlo" 32)
   (q/no-stroke)
   ; setup function returns initial state. It contains
@@ -70,6 +71,7 @@
   (let [[x1 y1] (mixed circle squircle theta (- 1 circleness))
         [x2 y2] (mixed squircle square theta squareness)]
     ;(if (> relative-size 0.5) [x1 y1] [x2 y2])
+    ; maybe square relative-size?
        [(q/lerp x1 x2 relative-size) (q/lerp y1 y2 relative-size)]
   )
 )
