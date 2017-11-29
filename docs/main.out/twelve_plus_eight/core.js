@@ -7,13 +7,13 @@ goog.require('quil.middleware');
 twelve_plus_eight.core.setup = (function twelve_plus_eight$core$setup(){
 quil.core.frame_rate((30));
 
-quil.core.smooth.cljs$core$IFn$_invoke$arity$1((8));
+quil.core.smooth.cljs$core$IFn$_invoke$arity$1((2));
 
 quil.core.text_font.cljs$core$IFn$_invoke$arity$2("Menlo",(32));
 
 quil.core.no_stroke();
 
-return new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$thetas,cljs.core.range.cljs$core$IFn$_invoke$arity$3((0),((2) * Math.PI),(Math.PI / (30))),cljs.core.cst$kw$mx,0.5,cljs.core.cst$kw$my,0.5,cljs.core.cst$kw$num_DASH_lines,(11),cljs.core.cst$kw$padding_DASH_ratio,0.1,cljs.core.cst$kw$color,(0),cljs.core.cst$kw$angle,(0)], null);
+return new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$thetas,cljs.core.range.cljs$core$IFn$_invoke$arity$3((0),((2) * Math.PI),(Math.PI / (60))),cljs.core.cst$kw$mx,0.5,cljs.core.cst$kw$my,0.5,cljs.core.cst$kw$num_DASH_lines,(11),cljs.core.cst$kw$padding_DASH_ratio,0.1,cljs.core.cst$kw$color,(0),cljs.core.cst$kw$angle,(0)], null);
 });
 twelve_plus_eight.core.update_state = (function twelve_plus_eight$core$update_state(state){
 return new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$thetas,cljs.core.cst$kw$thetas.cljs$core$IFn$_invoke$arity$1(state),cljs.core.cst$kw$color,cljs.core.mod((cljs.core.cst$kw$color.cljs$core$IFn$_invoke$arity$1(state) + 0.7),(255)),cljs.core.cst$kw$mx,(quil.core.mouse_x() / quil.core.width()),cljs.core.cst$kw$my,(quil.core.mouse_y() / quil.core.height()),cljs.core.cst$kw$num_DASH_lines,quil.core.floor(((40) * cljs.core.cst$kw$mx.cljs$core$IFn$_invoke$arity$1(state))),cljs.core.cst$kw$padding_DASH_ratio,cljs.core.cst$kw$my.cljs$core$IFn$_invoke$arity$1(state),cljs.core.cst$kw$angle,(cljs.core.cst$kw$angle.cljs$core$IFn$_invoke$arity$1(state) + 0.1)], null);
@@ -97,7 +97,7 @@ var coord_14595 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14534_14593,(
 var vec__14537_14596 = coord_14595;
 var x1_14597 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14537_14596,(0),null);
 var y1_14598 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14537_14596,(1),null);
-var vec__14540_14599 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14587,cljs.core.mod((i_14594 + (1)),(60)));
+var vec__14540_14599 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14587,cljs.core.mod((i_14594 + (1)),(30)));
 var x2_14600 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14540_14599,(0),null);
 var y2_14601 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14540_14599,(1),null);
 var vec__14543_14602 = cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (seq__14530_14589,chunk__14531_14590,count__14532_14591,i__14533_14592,seq__14526,chunk__14527,count__14528,i__14529,vec__14537_14596,x1_14597,y1_14598,vec__14540_14599,x2_14600,y2_14601,vec__14534_14593,i_14594,coord_14595,tr__14424__auto___14588,radius_14586,coords_14587,radius_ratio,padding_amount){
@@ -142,7 +142,7 @@ var coord_14620 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14546_14618,(
 var vec__14549_14621 = coord_14620;
 var x1_14622 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14549_14621,(0),null);
 var y1_14623 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14549_14621,(1),null);
-var vec__14552_14624 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14587,cljs.core.mod((i_14619 + (1)),(60)));
+var vec__14552_14624 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14587,cljs.core.mod((i_14619 + (1)),(30)));
 var x2_14625 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14552_14624,(0),null);
 var y2_14626 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14552_14624,(1),null);
 var vec__14555_14627 = cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (seq__14530_14589,chunk__14531_14590,count__14532_14591,i__14533_14592,seq__14526,chunk__14527,count__14528,i__14529,vec__14549_14621,x1_14622,y1_14623,vec__14552_14624,x2_14625,y2_14626,vec__14546_14618,i_14619,coord_14620,seq__14530_14612__$1,temp__4657__auto___14611,tr__14424__auto___14588,radius_14586,coords_14587,radius_ratio,padding_amount){
@@ -228,7 +228,7 @@ var coord_14653 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14562_14651,(
 var vec__14565_14654 = coord_14653;
 var x1_14655 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14565_14654,(0),null);
 var y1_14656 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14565_14654,(1),null);
-var vec__14568_14657 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14645,cljs.core.mod((i_14652 + (1)),(60)));
+var vec__14568_14657 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14645,cljs.core.mod((i_14652 + (1)),(30)));
 var x2_14658 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14568_14657,(0),null);
 var y2_14659 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14568_14657,(1),null);
 var vec__14571_14660 = cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (seq__14558_14647,chunk__14559_14648,count__14560_14649,i__14561_14650,seq__14526,chunk__14527,count__14528,i__14529,vec__14565_14654,x1_14655,y1_14656,vec__14568_14657,x2_14658,y2_14659,vec__14562_14651,i_14652,coord_14653,tr__14424__auto___14646,radius_14644,coords_14645,radius_ratio,seq__14526__$1,temp__4657__auto__,padding_amount){
@@ -273,7 +273,7 @@ var coord_14678 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14574_14676,(
 var vec__14577_14679 = coord_14678;
 var x1_14680 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14577_14679,(0),null);
 var y1_14681 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14577_14679,(1),null);
-var vec__14580_14682 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14645,cljs.core.mod((i_14677 + (1)),(60)));
+var vec__14580_14682 = cljs.core.nth.cljs$core$IFn$_invoke$arity$2(coords_14645,cljs.core.mod((i_14677 + (1)),(30)));
 var x2_14683 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14580_14682,(0),null);
 var y2_14684 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14580_14682,(1),null);
 var vec__14583_14685 = cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (seq__14558_14647,chunk__14559_14648,count__14560_14649,i__14561_14650,seq__14526,chunk__14527,count__14528,i__14529,vec__14577_14679,x1_14680,y1_14681,vec__14580_14682,x2_14683,y2_14684,vec__14574_14676,i_14677,coord_14678,seq__14558_14670__$1,temp__4657__auto___14669__$1,tr__14424__auto___14646,radius_14644,coords_14645,radius_ratio,seq__14526__$1,temp__4657__auto__,padding_amount){
