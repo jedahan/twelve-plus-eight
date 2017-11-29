@@ -5,12 +5,12 @@
 (defn setup []
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
-;  (q/smooth 8)
+  (q/smooth 2)
   (q/text-font "Menlo" 32)
   (q/no-stroke)
   ; setup function returns initial state. It contains
   ; circle color and position.
-  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 30))
+  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 60))
    :mx 0.5
    :my 0.5
    :num-lines 11
@@ -75,7 +75,7 @@
           ; Draw the squarcle
             (doseq [[i coord] (map-indexed vector coords)]
               (let [[x1 y1] coord
-                    [x2 y2] (nth coords (mod (+ i 1) 60))
+                    [x2 y2] (nth coords (mod (+ i 1) 30))
                     [a b c d] (mapv (fn [x] (* x radius)) [x1 y1 x2 y2])]
                 (q/line a b c d)))
         )
