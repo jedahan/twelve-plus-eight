@@ -60,16 +60,16 @@
         (q/with-translation [(/ (q/width) 2) (/ (q/height) 2)]
           (q/text "hello" -34 10)
           ; Draw the squarcle
-            (doseq [[i coord] (map-indexed vector coords)]
-              (let [[x1 y1] coord
-                    [x2 y2] (nth coords (mod (+ i 1) (* 2 (:num-points state))))
-                    [a b c d] (mapv (fn [x] (* x radius)) [x1 y1 x2 y2])]
-                (q/line a b c d)))
+          (doseq [[i coord] (map-indexed vector coords)]
+            (let [[x1 y1] coord
+                  [x2 y2] (nth coords (mod (+ i 1) (* 2 (:num-points state))))]
+              (q/line (* x1 radius) (* y1 radius) (* x2 radius) (* y2 radius))
+            )
+          )
         )
-
       )
     )
-    )
+  )
 )
 
 (q/defsketch twelve-plus-eight
