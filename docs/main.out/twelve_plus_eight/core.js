@@ -7,6 +7,8 @@ goog.require('quil.middleware');
 twelve_plus_eight.core.setup = (function twelve_plus_eight$core$setup(){
 quil.core.frame_rate((30));
 
+quil.core.smooth.cljs$core$IFn$_invoke$arity$1((8));
+
 quil.core.text_font.cljs$core$IFn$_invoke$arity$2("Menlo",(32));
 
 quil.core.no_stroke();
