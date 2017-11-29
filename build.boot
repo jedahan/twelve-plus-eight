@@ -33,11 +33,11 @@
         (cljs)))
 
 (deftask production []
-  (task-options! cljs {:optimizations :advanced})
+  (task-options! cljs {:optimizations :advanced :source-map true})
   identity)
 
 (deftask development []
-  (task-options! cljs {:optimizations :none}
+  (task-options! cljs {:optimizations :none :source-map true}
                  reload {:on-jsload 'twelve-plus-eight.core/twelve-plus-eight})
   identity)
 
