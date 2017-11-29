@@ -49,7 +49,9 @@
 
 (deftask prod
   "Simple alias to run application in production mode"
-  []
-  (comp (production)
-     (cljs)
-     (target)))
+  [d dir PATH #{str} "the set of directories to write to (target)."]
+  (let [dir (if (seq dir) dir #{"target"})]
+    (comp (production)
+       (cljs)
+       (target :dir dir)))
+  )
