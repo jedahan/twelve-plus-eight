@@ -13,16 +13,27 @@ quil.core.text_font.cljs$core$IFn$_invoke$arity$2("Menlo",(32));
 
 quil.core.no_stroke();
 
-return new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$mx,0.5,cljs.core.cst$kw$my,0.5,cljs.core.cst$kw$max_DASH_lines,(40),cljs.core.cst$kw$num_DASH_lines,(11),cljs.core.cst$kw$num_DASH_points,(60),cljs.core.cst$kw$thetas,cljs.core.range.cljs$core$IFn$_invoke$arity$3((0),((2) * Math.PI),(Math.PI / (60))),cljs.core.cst$kw$padding_DASH_ratio,0.1], null);
+return new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$max_DASH_lines,(40),cljs.core.cst$kw$num_DASH_lines,(11),cljs.core.cst$kw$num_DASH_points,(60),cljs.core.cst$kw$thetas,cljs.core.range.cljs$core$IFn$_invoke$arity$3((0),((2) * Math.PI),(Math.PI / (60))),cljs.core.cst$kw$padding_DASH_ratio,0.1], null);
 });
 twelve_plus_eight.core.update_state = (function twelve_plus_eight$core$update_state(state){
-return new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$mx,(quil.core.mouse_x() / quil.core.width()),cljs.core.cst$kw$my,(quil.core.mouse_y() / quil.core.height()),cljs.core.cst$kw$max_DASH_lines,cljs.core.cst$kw$max_DASH_lines.cljs$core$IFn$_invoke$arity$1(state),cljs.core.cst$kw$num_DASH_lines,(function (){var x__8337__auto__ = quil.core.floor((cljs.core.cst$kw$max_DASH_lines.cljs$core$IFn$_invoke$arity$1(state) * cljs.core.cst$kw$mx.cljs$core$IFn$_invoke$arity$1(state)));
+return state;
+});
+twelve_plus_eight.core.mouse_moved = (function twelve_plus_eight$core$mouse_moved(state){
+var mx = (quil.core.mouse_x() / quil.core.width());
+var my = (quil.core.mouse_y() / quil.core.height());
+var num_lines = (function (){var x__8337__auto__ = quil.core.floor((cljs.core.cst$kw$max_DASH_lines.cljs$core$IFn$_invoke$arity$1(state) * mx));
 var y__8338__auto__ = cljs.core.cst$kw$max_DASH_lines.cljs$core$IFn$_invoke$arity$1(state);
 return ((x__8337__auto__ < y__8338__auto__) ? x__8337__auto__ : y__8338__auto__);
-})(),cljs.core.cst$kw$num_DASH_points,cljs.core.cst$kw$num_DASH_points.cljs$core$IFn$_invoke$arity$1(state),cljs.core.cst$kw$thetas,cljs.core.range.cljs$core$IFn$_invoke$arity$3((0),((2) * Math.PI),(Math.PI / cljs.core.cst$kw$num_DASH_points.cljs$core$IFn$_invoke$arity$1(state))),cljs.core.cst$kw$padding_DASH_ratio,(function (){var x__8337__auto__ = 0.49;
-var y__8338__auto__ = cljs.core.cst$kw$my.cljs$core$IFn$_invoke$arity$1(state);
+})();
+var padding_ratio = (function (){var x__8337__auto__ = 0.49;
+var y__8338__auto__ = my;
 return ((x__8337__auto__ < y__8338__auto__) ? x__8337__auto__ : y__8338__auto__);
-})()], null);
+})();
+if((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(num_lines,cljs.core.cst$kw$num_DASH_lines.cljs$core$IFn$_invoke$arity$1(state))) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(padding_ratio,cljs.core.cst$kw$padding_DASH_ratio.cljs$core$IFn$_invoke$arity$1(state)))){
+return state;
+} else {
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(state,cljs.core.cst$kw$num_DASH_lines,num_lines,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$padding_DASH_ratio,padding_ratio], 0));
+}
 });
 twelve_plus_eight.core.sign = (function twelve_plus_eight$core$sign(x){
 if((x > (0))){
@@ -268,9 +279,9 @@ break;
 }
 });
 twelve_plus_eight.core.twelve_plus_eight = (function twelve_plus_eight$core$twelve_plus_eight(){
-return quil.sketch.sketch.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$host,"twelve-plus-eight",cljs.core.cst$kw$update,((cljs.core.fn_QMARK_(twelve_plus_eight.core.update_state))?(function() { 
+return quil.sketch.sketch.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$host,"twelve-plus-eight",cljs.core.cst$kw$mouse_DASH_moved,((cljs.core.fn_QMARK_(twelve_plus_eight.core.mouse_moved))?(function() { 
 var G__14665__delegate = function (args){
-return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.update_state,args);
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.mouse_moved,args);
 };
 var G__14665 = function (var_args){
 var args = null;
@@ -288,9 +299,9 @@ return G__14665__delegate(args);
 G__14665.cljs$core$IFn$_invoke$arity$variadic = G__14665__delegate;
 return G__14665;
 })()
-:twelve_plus_eight.core.update_state),cljs.core.cst$kw$size,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(900),(900)], null),cljs.core.cst$kw$setup,((cljs.core.fn_QMARK_(twelve_plus_eight.core.setup))?(function() { 
+:twelve_plus_eight.core.mouse_moved),cljs.core.cst$kw$update,((cljs.core.fn_QMARK_(twelve_plus_eight.core.update_state))?(function() { 
 var G__14668__delegate = function (args){
-return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.setup,args);
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.update_state,args);
 };
 var G__14668 = function (var_args){
 var args = null;
@@ -308,9 +319,9 @@ return G__14668__delegate(args);
 G__14668.cljs$core$IFn$_invoke$arity$variadic = G__14668__delegate;
 return G__14668;
 })()
-:twelve_plus_eight.core.setup),cljs.core.cst$kw$middleware,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [quil.middleware.fun_mode], null),cljs.core.cst$kw$draw,((cljs.core.fn_QMARK_(twelve_plus_eight.core.draw_state))?(function() { 
+:twelve_plus_eight.core.update_state),cljs.core.cst$kw$size,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(900),(900)], null),cljs.core.cst$kw$setup,((cljs.core.fn_QMARK_(twelve_plus_eight.core.setup))?(function() { 
 var G__14671__delegate = function (args){
-return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.draw_state,args);
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.setup,args);
 };
 var G__14671 = function (var_args){
 var args = null;
@@ -327,6 +338,26 @@ return G__14671__delegate(args);
 });
 G__14671.cljs$core$IFn$_invoke$arity$variadic = G__14671__delegate;
 return G__14671;
+})()
+:twelve_plus_eight.core.setup),cljs.core.cst$kw$middleware,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [quil.middleware.fun_mode], null),cljs.core.cst$kw$draw,((cljs.core.fn_QMARK_(twelve_plus_eight.core.draw_state))?(function() { 
+var G__14674__delegate = function (args){
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(twelve_plus_eight.core.draw_state,args);
+};
+var G__14674 = function (var_args){
+var args = null;
+if (arguments.length > 0) {
+var G__14675__i = 0, G__14675__a = new Array(arguments.length -  0);
+while (G__14675__i < G__14675__a.length) {G__14675__a[G__14675__i] = arguments[G__14675__i + 0]; ++G__14675__i;}
+  args = new cljs.core.IndexedSeq(G__14675__a,0,null);
+} 
+return G__14674__delegate.call(this,args);};
+G__14674.cljs$lang$maxFixedArity = 0;
+G__14674.cljs$lang$applyTo = (function (arglist__14676){
+var args = cljs.core.seq(arglist__14676);
+return G__14674__delegate(args);
+});
+G__14674.cljs$core$IFn$_invoke$arity$variadic = G__14674__delegate;
+return G__14674;
 })()
 :twelve_plus_eight.core.draw_state)], 0));
 });

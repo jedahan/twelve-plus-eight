@@ -9,25 +9,28 @@
   (q/text-font "Menlo" 32)
   (q/no-stroke)
   ; setup function returns initial state.
-  {:mx 0.5
-   :my 0.5
-   :max-lines 40
+  {:max-lines 40
    :num-lines 11
    :num-points 60
    :thetas (range 0 (* 2 Math/PI) (/ Math/PI 60))
    :padding-ratio 0.1
   })
 
-(defn update-state [state]
-  ; Update sketch state by changing circle color and position.
-  {:mx (/ (q/mouse-x) (q/width))
-   :my (/ (q/mouse-y) (q/height))
-   :max-lines (:max-lines state)
-   :num-lines (min (q/floor (* (:max-lines state) (:mx state))) (:max-lines state))
-   :num-points (:num-points state)
-   :thetas (range 0 (* 2 Math/PI) (/ Math/PI (:num-points state)))
-   :padding-ratio (min 0.49 (:my state))
-  })
+(defn update-state [state] state)
+
+(defn mouse-moved [state]
+  (let [mx (/ (q/mouse-x) (q/width))
+        my (/ (q/mouse-y) (q/height))
+        num-lines (min (q/floor (* (:max-lines state) mx)) (:max-lines state))
+        padding-ratio (min 0.49 my)]
+    (if (and
+          (= num-lines (:num-lines state))
+          (= padding-ratio (:padding-ratio state))
+        ) state
+      (assoc state :num-lines num-lines :padding-ratio padding-ratio)
+    )
+  )
+)
 
 (defn sign [x]
   (cond
@@ -80,6 +83,7 @@
   ; update-state is called on each iteration before draw-state.
   :update update-state
   :draw draw-state
+  :mouse-moved mouse-moved
   ; This sketch uses functional-mode middleware.
   ; Check quil wiki for more info about middlewares and particularly
   ; fun-mode.
