@@ -8,25 +8,26 @@
   (q/smooth 2)
   (q/text-font "Menlo" 32)
   (q/no-stroke)
-  ; setup function returns initial state. It contains
-  ; circle color and position.
-  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 60))
-   :mx 0.5
+  ; setup function returns initial state.
+  {:mx 0.5
    :my 0.5
+   :max-lines 40
    :num-lines 11
+   :num-points 60
+   :thetas (range 0 (* 2 Math/PI) (/ Math/PI 60))
    :padding-ratio 0.1
-   :color 0
-   :angle 0})
+  })
 
 (defn update-state [state]
   ; Update sketch state by changing circle color and position.
-  {:thetas (:thetas state)
-   :color (mod (+ (:color state) 0.7) 255)
-   :mx (/ (q/mouse-x) (q/width))
+  {:mx (/ (q/mouse-x) (q/width))
    :my (/ (q/mouse-y) (q/height))
-   :num-lines (q/floor (* 40 (:mx state)))
-   :padding-ratio (:my state)
-   :angle (+ (:angle state) 0.1)})
+   :max-lines (:max-lines state)
+   :num-lines (min (q/floor (* (:max-lines state) (:mx state))) (:max-lines state))
+   :num-points (:num-points state)
+   :thetas (range 0 (* 2 Math/PI) (/ Math/PI (:num-points state)))
+   :padding-ratio (min 0.49 (:my state))
+  })
 
 (defn sign [x]
   (cond
@@ -41,20 +42,6 @@
     (* (q/pow (q/abs (q/cos theta)) curvature) (sign (q/cos theta)))
     (* (q/pow (q/abs (q/sin theta)) curvature) (sign (q/sin theta)))
   ]
-)
-
-(def half-pi (/ js/Math.PI 2))
-(def quarter-pi (/ js/Math.PI 4))
-
-(defn square [theta]
-  (let [quadrant (js/Math.floor (mod (/ (+ theta quarter-pi) half-pi) 4))]
-    (cond
-        (= quadrant 0) [(+ 1) (* (q/tan theta) 1)]
-        (= quadrant 1) [(/ 1 (q/tan theta)) (+ 1)]
-        (= quadrant 2) [(- 1) (- (* (q/tan theta) 1))]
-        (= quadrant 3) [(- (/ 1 (q/tan theta))) (- 1)]
-    )
-  )
 )
 
 (defn draw-state [state]
@@ -75,7 +62,7 @@
           ; Draw the squarcle
             (doseq [[i coord] (map-indexed vector coords)]
               (let [[x1 y1] coord
-                    [x2 y2] (nth coords (mod (+ i 1) 30))
+                    [x2 y2] (nth coords (mod (+ i 1) (* 2 (:num-points state))))
                     [a b c d] (mapv (fn [x] (* x radius)) [x1 y1 x2 y2])]
                 (q/line a b c d)))
         )
