@@ -5,14 +5,16 @@
 (defn setup []
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
-  (q/smooth 8)
+;  (q/smooth 8)
   (q/text-font "Menlo" 32)
   (q/no-stroke)
   ; setup function returns initial state. It contains
   ; circle color and position.
-  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 180))
+  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 30))
    :mx 0.5
    :my 0.5
+   :num-lines 11
+   :padding-ratio 0.1
    :color 0
    :angle 0})
 
@@ -22,6 +24,8 @@
    :color (mod (+ (:color state) 0.7) 255)
    :mx (/ (q/mouse-x) (q/width))
    :my (/ (q/mouse-y) (q/height))
+   :num-lines (q/floor (* 40 (:mx state)))
+   :padding-ratio (:my state)
    :angle (+ (:angle state) 0.1)})
 
 (defn sign [x]
@@ -32,14 +36,10 @@
   )
 )
 
-(defn circle [theta]
-  [(q/cos theta) (q/sin theta)]
-)
-
-(defn squircle [theta]
+(defn squircle [theta curvature]
   [
-    (* (q/sqrt (q/abs (q/cos theta))) (sign (q/cos theta)))
-    (* (q/sqrt (q/abs (q/sin theta))) (sign (q/sin theta)))
+    (* (q/pow (q/abs (q/cos theta)) curvature) (sign (q/cos theta)))
+    (* (q/pow (q/abs (q/sin theta)) curvature) (sign (q/sin theta)))
   ]
 )
 
@@ -57,54 +57,37 @@
   )
 )
 
-
-(defn mixed [from to theta amount]
-  (let [[from-x from-y] (from theta)
-        [to-x to-y] (to theta)]
-      [(q/lerp from-x to-x amount)
-       (q/lerp from-y to-y amount)
-       ]
-  )
-)
-
-(defn squarcle [theta circleness squareness relative-size]
-  (let [[x1 y1] (mixed circle squircle theta (- 1 circleness))
-        [x2 y2] (mixed squircle square theta squareness)]
-    ;(if (> relative-size 0.5) [x1 y1] [x2 y2])
-    ; maybe square relative-size?
-       [(q/lerp x1 x2 relative-size) (q/lerp y1 y2 relative-size)]
-  )
-)
-
 (defn draw-state [state]
   (q/background 220 220 120)
-  (doseq [radius (range 30 250 20)]
-  (let [mx (:mx state)
-        my (:my state)
-        coords (map (fn [theta] (squarcle theta mx my (/ (- radius 30) 220.0))) (:thetas state))]
-    ; Clear the sketch by filling it with light-grey color.
-    ; where is the mouse?
-    (q/stroke 0)
-    (q/stroke-weight 2)
-    ; Set circle color.
-    ; Calculate x and y coordinates of the circle.
-    ; Move origin point to the center of the sketch.
-    (q/with-translation [(/ (q/width) 2) 250]
-      ; Draw the squarcle
-        (doseq [[i coord] (map-indexed vector coords)]
-          (let [[x1 y1] coord
-                [x2 y2] (nth coords (mod (+ i 1) 360))]
-            (q/line (* x1 radius) (* y1 radius) (* x2 radius) (* y2 radius))))
-       ; (* x2 radius) (* y2 radius)))
-    )
+  (let [padding-amount (* (:padding-ratio state) (q/width))]
+    (doseq [radius-ratio (range 0 1.01 (/ 1 (dec (:num-lines state))))]
+      (let [radius (+ (* (q/width) radius-ratio (- 0.5 (* 2 (:padding-ratio state)))) padding-amount)
+            coords (map (fn [theta] (squircle theta (- 1 radius-ratio))) (:thetas state))]
+        ; Clear the sketch by filling it with light-grey color.
+        ; where is the mouse?
+        (q/stroke 0)
+        (q/stroke-weight 2)
+        ; Set circle color.
+        ; Calculate x and y coordinates of the circle.
+        ; Move origin point to the center of the sketch.
+        (q/with-translation [(/ (q/width) 2) (/ (q/height) 2)]
+          (q/text "hello" -34 10)
+          ; Draw the squarcle
+            (doseq [[i coord] (map-indexed vector coords)]
+              (let [[x1 y1] coord
+                    [x2 y2] (nth coords (mod (+ i 1) 60))
+                    [a b c d] (mapv (fn [x] (* x radius)) [x1 y1 x2 y2])]
+                (q/line a b c d)))
+        )
 
-  )
-  )
+      )
+    )
+    )
 )
 
 (q/defsketch twelve-plus-eight
   :host "twelve-plus-eight"
-  :size [660 900]
+  :size [900 900]
   ; setup function called only once, during sketch initialization.
   :setup setup
   ; update-state is called on each iteration before draw-state.
