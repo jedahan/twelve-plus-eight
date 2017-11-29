@@ -5,13 +5,11 @@
 (defn setup []
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
-  ; Set color mode to HSB (HSV) instead of default RGB.
-  (q/color-mode :hsb)
   (q/text-font "Menlo" 32)
   (q/no-stroke)
   ; setup function returns initial state. It contains
   ; circle color and position.
-  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 720))
+  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 180))
    :mx 0.5
    :my 0.5
    :color 0
@@ -68,43 +66,43 @@
   )
 )
 
-(defn squarcle [theta circleness squareness]
+(defn squarcle [theta circleness squareness relative-size]
   (let [[x1 y1] (mixed circle squircle theta (- 1 circleness))
         [x2 y2] (mixed squircle square theta squareness)]
-       [(q/lerp x1 x2 0.9) (q/lerp y1 y2 (- 1 0.1))]
+    ;(if (> relative-size 0.5) [x1 y1] [x2 y2])
+       [(q/lerp x1 x2 relative-size) (q/lerp y1 y2 relative-size)]
   )
 )
 
 (defn draw-state [state]
+  (q/background 220 220 120)
+  (doseq [radius (range 30 250 20)]
   (let [mx (:mx state)
         my (:my state)
-        coords (map (fn [theta] (squarcle theta mx my)) (:thetas state))]
+        coords (map (fn [theta] (squarcle theta mx my (/ (- radius 30) 220.0))) (:thetas state))]
     ; Clear the sketch by filling it with light-grey color.
-    (q/background 192)
     ; where is the mouse?
-    (q/fill 0 0 100)
+    (q/stroke 0)
+    (q/stroke-weight 2)
     ; Set circle color.
-    (q/fill 64 200 100)
     ; Calculate x and y coordinates of the circle.
     ; Move origin point to the center of the sketch.
-    (q/with-translation [(/ (q/width) 2)
-                         (/ (q/height) 2)]
+    (q/with-translation [(/ (q/width) 2) 250]
       ; Draw the squarcle
-      (doseq [radius (range 30 250 44)]
-        (doseq [[x y] coords] (q/ellipse (* x radius) (* y radius) 15 15))
-      )
+        (doseq [[i coord] (map-indexed vector coords)]
+          (let [[x1 y1] coord
+                [x2 y2] (nth coords (mod (+ i 1) 360))]
+            (q/line (* x1 radius) (* y1 radius) (* x2 radius) (* y2 radius))))
+       ; (* x2 radius) (* y2 radius)))
     )
 
-    (q/fill 100 100 255)
-    (q/rect 0 (- (q/height) 40) (q/width) 40)
-    (q/fill 0 0 100)
-    (q/text (str mx " " my) 10 (- (q/height) 10))
+  )
   )
 )
 
 (q/defsketch twelve-plus-eight
   :host "twelve-plus-eight"
-  :size [800 800]
+  :size [660 900]
   ; setup function called only once, during sketch initialization.
   :setup setup
   ; update-state is called on each iteration before draw-state.
