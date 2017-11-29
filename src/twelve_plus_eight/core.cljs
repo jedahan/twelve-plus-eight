@@ -2,13 +2,6 @@
   (:require [quil.core :as q :include-macros true]
             [quil.middleware :as m]))
 
-(defn mouse-normalized []
-  [
-    (/ (q/mouse-x) (q/width))
-    (/ (q/mouse-y) (q/height))
-  ]
-)
-
 (defn setup []
   ; Set frame rate to 30 frames per second.
   (q/frame-rate 30)
@@ -18,13 +11,19 @@
   (q/no-stroke)
   ; setup function returns initial state. It contains
   ; circle color and position.
-  {:color 0
+  {:thetas (range 0 (* 2 Math/PI) (/ Math/PI 720))
+   :mx 0.5
+   :my 0.5
+   :color 0
    :angle 0})
 
 (defn update-state [state]
   ; Update sketch state by changing circle color and position.
-  {:color (mod (+ (:color state) 0.7) 255)
-   :angle (+ (:angle state) 0.01)})
+  {:thetas (:thetas state)
+   :color (mod (+ (:color state) 0.7) 255)
+   :mx (/ (q/mouse-x) (q/width))
+   :my (/ (q/mouse-y) (q/height))
+   :angle (+ (:angle state) 0.1)})
 
 (defn sign [x]
   (cond
@@ -34,10 +33,14 @@
   )
 )
 
-(defn circle [radius theta]
+(defn circle [theta]
+  [(q/cos theta) (q/sin theta)]
+)
+
+(defn squircle [theta]
   [
-    (* (q/abs (q/sin theta)) radius (sign (q/cos theta)))
-    (* (q/abs (q/sin theta)) radius (sign (q/sin theta)))
+    (* (q/sqrt (q/abs (q/cos theta))) (sign (q/cos theta)))
+    (* (q/sqrt (q/abs (q/sin theta))) (sign (q/sin theta)))
   ]
 )
 
@@ -55,45 +58,53 @@
   )
 )
 
-;(defn squarcle-x [r t squareness]
-;  (q/lerp (circle r t) (square r t) squareness)
-;)
 
-;(defn squarcle-y [r t squareness]
-;  (q/lerp (circle-y r t) (square-y r t) squareness)
-;)
+(defn mixed [from to theta amount]
+  (let [[from-x from-y] (from theta)
+        [to-x to-y] (to theta)]
+      [(q/lerp from-x to-x amount)
+       (q/lerp from-y to-y amount)
+       ]
+  )
+)
+
+(defn squarcle [theta circleness squareness]
+  (let [[x1 y1] (mixed circle squircle theta (- 1 circleness))
+        [x2 y2] (mixed squircle square theta squareness)]
+       [(q/lerp x1 x2 0.9) (q/lerp y1 y2 (- 1 0.1))]
+  )
+)
 
 (defn draw-state [state]
-  (let [[mx my] (mouse-normalized)]
+  (let [mx (:mx state)
+        my (:my state)
+        coords (map (fn [theta] (squarcle theta mx my)) (:thetas state))]
     ; Clear the sketch by filling it with light-grey color.
-    ;(q/background (* 360 mx) 100 (* 100 my))
+    (q/background 192)
     ; where is the mouse?
     (q/fill 0 0 100)
-    ;(q/text (str (mouse-normalized)) (/ (q/width) 2) (/ (q/height) 2))
     ; Set circle color.
-    (q/fill (:color state) 255 255)
+    (q/fill 64 200 100)
     ; Calculate x and y coordinates of the circle.
-    (let [angle (:angle state)
-         coords  (square angle)
-         x (first coords)
-         y (second coords)]
-      ; Move origin point to the center of the sketch.
-      (q/with-translation [(/ (q/width) 2)
-                           (/ (q/height) 2)]
-        ; Draw the circle.
-        (q/ellipse (* x 50) (* y 50) 10 10))
-
-      (q/fill 100 100 255)
-      (q/rect 0 (- (q/height) 40) (q/width) 40)
-      (q/fill 0 0 100)
-      (q/text (str (q/floor x) " " (q/floor y)) 10 (- (q/height) 10))
+    ; Move origin point to the center of the sketch.
+    (q/with-translation [(/ (q/width) 2)
+                         (/ (q/height) 2)]
+      ; Draw the squarcle
+      (doseq [radius (range 30 250 44)]
+        (doseq [[x y] coords] (q/ellipse (* x radius) (* y radius) 15 15))
+      )
     )
+
+    (q/fill 100 100 255)
+    (q/rect 0 (- (q/height) 40) (q/width) 40)
+    (q/fill 0 0 100)
+    (q/text (str mx " " my) 10 (- (q/height) 10))
   )
 )
 
 (q/defsketch twelve-plus-eight
   :host "twelve-plus-eight"
-  :size [500 500]
+  :size [800 800]
   ; setup function called only once, during sketch initialization.
   :setup setup
   ; update-state is called on each iteration before draw-state.
