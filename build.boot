@@ -1,6 +1,6 @@
 (set-env!
  :source-paths #{"src"}
- :resource-paths #{"html" "js"}
+ :resource-paths #{"html"}
 
  :dependencies '[
                  [org.clojure/clojurescript "1.9.946"]
@@ -38,7 +38,7 @@
 
 (deftask development []
   (task-options! cljs {:optimizations :none :source-map true}
-                 reload {:on-jsload 'twelve-plus-eight.core/twelve-plus-eight})
+                 reload {:on-jsload 'new-twelve-plus-eight.core/new-twelve-plus-eight})
   identity)
 
 (deftask dev

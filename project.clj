@@ -15,6 +15,6 @@
              :compiler
              {:output-to "js/main.js"
               :output-dir "out"
-              :main "twelve_plus_eight.core"
+              :main "new_twelve_plus_eight.core"
               :optimizations :none
               :pretty-print true}}]})
